@@ -1,4 +1,4 @@
-tspan = linspace(0,7*60*60*24,7*60*60*24);
+tspan = linspace(0,60*60*60*24,7*60*60*24);
 %t = linspace(0,7*60*60*24,7*60*60*24);
 %Q_in_sun = -361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210;
 %plot(t, Q_in_sun)
@@ -16,7 +16,7 @@ h_f = 15; %
 A_win = 2.6*2.6; %m^2
 A_wall = 25*6 - A_win; % m^2 
 A_f = 25; %m^2
-L_wall = .3; %m 
+L_wall = .8; %m 
 L_win = .1; %m
 h_wall_in = 15; %w/mk
 h_wall_out = 30; %w/mk
