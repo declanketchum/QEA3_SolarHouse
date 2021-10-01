@@ -8,7 +8,7 @@ tspan = linspace(0,60*60*60*24,7*60*60*24);
 
 y_0= 17; %start temp of air
 T_a = -3; %temp of air constant
-m = 3000 * 5 * 5 * .1; %kg
+m = 3000 * 5 * 5 * .3; %kg thermal mass of floor
 c = 800; % j/kgK
 
 
@@ -16,8 +16,8 @@ h_f = 15; %
 A_win = 2.6*2.6; %m^2
 A_wall = 25*6 - A_win; % m^2 
 A_f = 25; %m^2
-L_wall = .8; %m 
-L_win = .1; %m
+L_wall = .08; %m 
+L_win = .01; %m
 h_wall_in = 15; %w/mk
 h_wall_out = 30; %w/mk
 K_win = .78; % w/mk %found online
@@ -36,7 +36,7 @@ R_AirtoWall_out = 1/(h_wall_out * A_wall);
 
 R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_in + R_win + R_AtoWin_out))); %thermal resistance
 
-[t, y] = ode45(@(t,y) (-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+[t, y] = ode45(@(t,y) A_win*(-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
 %dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);
 
 plot(t,y)
