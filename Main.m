@@ -1,14 +1,16 @@
 tspan = linspace(0,7*60*60*24,7*60*60*24);
-Q_in_sun = -361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210;
+%t = linspace(0,7*60*60*24,7*60*60*24);
+%Q_in_sun = -361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210;
 %plot(t, Q_in_sun)
 
 
 
 
-y_0=17; %start temp of air
+y_0= 17; %start temp of air
 T_a = -3; %temp of air constant
 m = 3000 * 5 * 5 * .1; %kg
 c = 800; % j/kgK
+
 
 h_f = 15; %
 A_win = 2.6*2.6; %m^2
@@ -34,10 +36,8 @@ R_AirtoWall_out = 1/(h_wall_out * A_wall);
 
 R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_in + R_win + R_AtoWin_out))); %thermal resistance
 
-[t, y] = ode45(@(t,y) Q_in_sun/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+[t, y] = ode45(@(t,y) (-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
 %dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);
 
-
-
-
+plot(t,y)
 
