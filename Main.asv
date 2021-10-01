@@ -20,7 +20,6 @@ h_wall_in = 15; %w/mk
 h_wall_out = 30; %w/mk
 K_win = .78; % w/mk %found online
 h_win_out = .7; % w/m^2k
-h_win_in = .7; % w/m^2
 K_wall = .04; % w/mk
 
 R_FtoA = 1/(h_f * A_f);
@@ -29,10 +28,10 @@ R_W  = L_wall/(K_wall * A_wall);
 R_AtoWin_in = 1/(h_win_in*A_win);
 R_win   = L_win/(K_win*A_win);
 R_AtoWin_out = 1/(h_win_out*A_win);
-R_AirtoWall_out = 1/(h_wall_out * A_wall); 
+R_AirtoWall_out = 1/(h_wall_in * A_wall); 
 
 
-R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_in + R_win + R_AtoWin_out))); %thermal resistance
+R_tot = ;(1%thermal resistance
 
 [t, y] = ode45(@(t,y) Q_in_sun/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
 %dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);
