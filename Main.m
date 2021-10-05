@@ -40,4 +40,6 @@ R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_
 %dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);
 
 plot(t,y)
+xlabel("Time (s)")
+ylabel("Temp (C)")
 
