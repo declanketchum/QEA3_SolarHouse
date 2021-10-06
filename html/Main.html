@@ -1,0 +1,269 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Main</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-10-05"><meta name="DC.source" content="Main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">tspan = linspace(0,60*60*60*24, 10*60*60*24);
+<span class="comment">%t = linspace(0,7*60*60*24,7*60*60*24);</span>
+<span class="comment">%Q_in_sun = -361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210;</span>
+<span class="comment">%plot(t, Q_in_sun)</span>
+
+day_start = 45*60*60*24/6;
+day_end = 46*60*60*24/6;
+
+
+y_0= 17; <span class="comment">%start temp of air</span>
+T_a = -3; <span class="comment">%temp of air constant</span>
+m = 3000 * 5 * 5 * .2; <span class="comment">%kg thermal mass of floor</span>
+c = 800; <span class="comment">% j/kgK</span>
+
+
+h_inside = 15; <span class="comment">%</span>
+h_outside = 30;
+A_win = 2.6*2.6; <span class="comment">%m^2</span>
+A_wall = 25*2 + 15*4 - A_win; <span class="comment">% m^2</span>
+A_f = 25; <span class="comment">%m^2</span>
+L_wall = .07; <span class="comment">%m</span>
+K_wall = .04; <span class="comment">% w/mk</span>
+h_eq_win = .7;
+
+R_FtoA = 1/(h_inside * A_f);
+R_AirtoWall_in = 1/(h_inside * A_wall);
+R_W  = L_wall/(K_wall * A_wall);
+R_AtoWin_in = 1/(h_inside*A_win);
+R_win   = 1/(h_eq_win*A_win);
+R_AtoWin_out = 1/(h_outside*A_win);
+R_AirtoWall_out = 1/(h_outside * A_wall);
+
+
+
+
+R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_in + R_win + R_AtoWin_out))); <span class="comment">%thermal resistance</span>
+
+[t, y] = ode45(@(t,y) A_win*(-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+<span class="comment">%dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);</span>
+
+temp_inside_air = ((-R_FtoA.*(y - T_a))./R_tot) + y;
+
+sec_2_day = 60*60*24;
+sec_2_hour = 60*60;
+
+plot(t/sec_2_day,y)
+hold <span class="string">on</span>
+plot(t/sec_2_day,temp_inside_air, <span class="string">'red'</span>)
+xlabel(<span class="string">"Time (days)"</span>)
+ylabel(<span class="string">"Temp (C)"</span>)
+legend(<span class="string">'Thermal Mass Temp'</span>, <span class="string">'Indoor Air Temp'</span>)
+
+
+hold <span class="string">off</span>
+figure
+plot((t(day_start:day_end)-t(day_start))/sec_2_hour, temp_inside_air(day_start:day_end))
+xlabel(<span class="string">"Time (hour)"</span>)
+ylabel(<span class="string">"Temp (C)"</span>)
+
+
+<span class="comment">% making the figures with small changes in the insulation thickness and</span>
+<span class="comment">% thermal mass thi</span>
+figure
+lst = .05:((.2-.05)/4):.2;
+<span class="keyword">for</span> L_wall = .05:((.2-.05)/4):.2
+    R_W  = L_wall/(K_wall * A_wall);
+    R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_in + R_win + R_AtoWin_out))); <span class="comment">%thermal resistance</span>
+
+    [t, y] = ode45(@(t,y) A_win*(-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+    <span class="comment">%dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);</span>
+
+    temp_inside_air = ((-R_FtoA.*(y - T_a))./R_tot) + y;
+    plot((t(day_start:day_end)-t(day_start))/sec_2_hour, temp_inside_air(day_start:day_end))
+    hold <span class="string">on</span>
+    xlabel(<span class="string">"Time (hour)"</span>)
+    ylabel(<span class="string">"Temp (C)"</span>)
+    legend(num2str(lst(1)),num2str(lst(2)),num2str(lst(3)),num2str(lst(4)),num2str(lst(5)))
+    <span class="comment">%title("Indoor Air Temp Over the Course of a Day after Equilibrium is Reached with Varying Values of Insulation Thickness")</span>
+<span class="keyword">end</span>
+
+figure
+lst = .05:((.3-.05)/4):.3;
+<span class="keyword">for</span> m = ((3000 * 5 * 5 * .05):(((3000 * 5 * 5 * .3)-(3000 * 5 * 5 * .05))/4):(3000 * 5 * 5 * .3))
+    [t, y] = ode45(@(t,y) A_win*(-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+    <span class="comment">%dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);</span>
+
+    temp_inside_air = ((-R_FtoA.*(y - T_a))./R_tot) + y;
+    plot((t(day_start:day_end)-t(day_start))/sec_2_hour, temp_inside_air(day_start:day_end))
+    hold <span class="string">on</span>
+    xlabel(<span class="string">"Time (day)"</span>)
+    ylabel(<span class="string">"Temp (C)"</span>)
+    legend(num2str(lst(1)),num2str(lst(2)),num2str(lst(3)),num2str(lst(4)),num2str(lst(5)))
+    <span class="comment">%title("Indoor Air Temp Over the Course of a Day after Equilibrium is Reached with Varying Values of Insulation Thickness")</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Warning: Ignoring extra legend entries. 
+Warning: Ignoring extra legend entries. 
+Warning: Ignoring extra legend entries. 
+Warning: Ignoring extra legend entries. 
+Warning: Ignoring extra legend entries. 
+Warning: Ignoring extra legend entries. 
+Warning: Ignoring extra legend entries. 
+Warning: Ignoring extra legend entries. 
+</pre><img vspace="5" hspace="5" src="Main_01.png" alt=""> <img vspace="5" hspace="5" src="Main_02.png" alt=""> <img vspace="5" hspace="5" src="Main_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+tspan = linspace(0,60*60*60*24, 10*60*60*24);
+%t = linspace(0,7*60*60*24,7*60*60*24);
+%Q_in_sun = -361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210;
+%plot(t, Q_in_sun)
+
+day_start = 45*60*60*24/6;
+day_end = 46*60*60*24/6;
+
+
+y_0= 17; %start temp of air
+T_a = -3; %temp of air constant
+m = 3000 * 5 * 5 * .2; %kg thermal mass of floor
+c = 800; % j/kgK
+
+
+h_inside = 15; %
+h_outside = 30;
+A_win = 2.6*2.6; %m^2
+A_wall = 25*2 + 15*4 - A_win; % m^2 
+A_f = 25; %m^2
+L_wall = .07; %m 
+K_wall = .04; % w/mk
+h_eq_win = .7;
+
+R_FtoA = 1/(h_inside * A_f);
+R_AirtoWall_in = 1/(h_inside * A_wall);
+R_W  = L_wall/(K_wall * A_wall);
+R_AtoWin_in = 1/(h_inside*A_win);
+R_win   = 1/(h_eq_win*A_win);
+R_AtoWin_out = 1/(h_outside*A_win);
+R_AirtoWall_out = 1/(h_outside * A_wall); 
+
+
+    
+
+R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_in + R_win + R_AtoWin_out))); %thermal resistance
+
+[t, y] = ode45(@(t,y) A_win*(-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+%dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);
+
+temp_inside_air = ((-R_FtoA.*(y - T_a))./R_tot) + y;
+
+sec_2_day = 60*60*24;
+sec_2_hour = 60*60;
+
+plot(t/sec_2_day,y)
+hold on
+plot(t/sec_2_day,temp_inside_air, 'red')
+xlabel("Time (days)")
+ylabel("Temp (C)")
+legend('Thermal Mass Temp', 'Indoor Air Temp')
+
+
+hold off
+figure
+plot((t(day_start:day_end)-t(day_start))/sec_2_hour, temp_inside_air(day_start:day_end))
+xlabel("Time (hour)")
+ylabel("Temp (C)")
+
+
+% making the figures with small changes in the insulation thickness and
+% thermal mass thi
+figure
+lst = .05:((.2-.05)/4):.2;
+for L_wall = .05:((.2-.05)/4):.2
+    R_W  = L_wall/(K_wall * A_wall);
+    R_tot = R_FtoA + 1/((1/(R_AirtoWall_in + R_W + R_AirtoWall_out)) + (1/(R_AtoWin_in + R_win + R_AtoWin_out))); %thermal resistance
+
+    [t, y] = ode45(@(t,y) A_win*(-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+    %dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);
+
+    temp_inside_air = ((-R_FtoA.*(y - T_a))./R_tot) + y;
+    plot((t(day_start:day_end)-t(day_start))/sec_2_hour, temp_inside_air(day_start:day_end))
+    hold on
+    xlabel("Time (hour)")
+    ylabel("Temp (C)")
+    legend(num2str(lst(1)),num2str(lst(2)),num2str(lst(3)),num2str(lst(4)),num2str(lst(5)))
+    %title("Indoor Air Temp Over the Course of a Day after Equilibrium is Reached with Varying Values of Insulation Thickness")
+end
+
+figure
+lst = .05:((.3-.05)/4):.3;
+for m = ((3000 * 5 * 5 * .05):(((3000 * 5 * 5 * .3)-(3000 * 5 * 5 * .05))/4):(3000 * 5 * 5 * .3))
+    [t, y] = ode45(@(t,y) A_win*(-361*cos((pi*t)/(12 * 3600)) + 224*cos((pi*t)/(6 * 3600)) + 210)/(m*c) - (y - T_a)/(R_tot*m*c), tspan, y_0);
+    %dT_f/dt = Q_in_sun/(m*c) - (T_f - T_a)/(R_tot*m*c);
+
+    temp_inside_air = ((-R_FtoA.*(y - T_a))./R_tot) + y;
+    plot((t(day_start:day_end)-t(day_start))/sec_2_hour, temp_inside_air(day_start:day_end))
+    hold on
+    xlabel("Time (day)")
+    ylabel("Temp (C)")
+    legend(num2str(lst(1)),num2str(lst(2)),num2str(lst(3)),num2str(lst(4)),num2str(lst(5)))
+    %title("Indoor Air Temp Over the Course of a Day after Equilibrium is Reached with Varying Values of Insulation Thickness")
+end
+##### SOURCE END #####
+--></body></html>
